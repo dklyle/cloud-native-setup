@@ -1,0 +1,39 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "labels": {
+      "run": "net-serve"
+    },
+    "name": "@DEPLOYMENT@"
+  },
+  "spec": {
+    "replicas": @REPLICAS@,
+    "selector": {
+      "matchLabels": {
+        "run": "net-serve"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "run": "net-serve",
+          "@LABEL@": "@LABELVALUE@"
+        }
+      },
+      "spec": {
+        "terminationGracePeriodSeconds": @GRACE@,
+        "runtimeClassName": "@RUNTIMECLASS@",
+        "automountServiceAccountToken": false,
+        "containers": [{
+          "name": "net-serve",
+          "image": "dklyle/net-serve",
+          "ports": [{
+            "containerPort": 8080
+          }]
+        }],
+        "restartPolicy": "Always"
+      }
+    }
+  }
+}
